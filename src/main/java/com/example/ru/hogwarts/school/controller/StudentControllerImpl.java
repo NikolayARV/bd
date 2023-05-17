@@ -11,35 +11,34 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("student")
-public class StudentControllerImpl implements StudentController{
+public class StudentControllerImpl {
     private final StudentService studentService;
 
     public StudentControllerImpl(StudentService studentService) {
         this.studentService = studentService;
     }
-    @Override
+
     @GetMapping("{id}")
     public Optional<Student> getStudent(@PathVariable long id) {
         return studentService.findStudent(id);
     }
 
-    @Override
+
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
         return studentService.createStudent(student);
     }
-    @Override
+
     @PutMapping
-    public Student updateStudent(@RequestBody Student student) {
-        return studentService.editStudent(student);
+    public Student updateStudent(@RequestBody Student student, long id) {
+        return studentService.editStudent(student, id);
     }
-    @Override
+
     @DeleteMapping("{id}")
     public ResponseEntity deleteStudent(@PathVariable long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
-    @Override
 
     @GetMapping("/sorted/{age}")
         public List<Student> getStudentByAge(@PathVariable int age) {

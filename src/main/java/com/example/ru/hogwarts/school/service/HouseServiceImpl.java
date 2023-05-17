@@ -2,8 +2,6 @@ package com.example.ru.hogwarts.school.service;
 
 import com.example.ru.hogwarts.school.Repository.FacultyRepository;
 import com.example.ru.hogwarts.school.model.Faculty;
-import org.aspectj.weaver.Position;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,7 +28,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Faculty editFaculty(Faculty faculty) {
+    public Faculty editFaculty(Faculty faculty, long id) {
+        faculty.setId(id);
         return facultyRepository.save(faculty);
     }
 

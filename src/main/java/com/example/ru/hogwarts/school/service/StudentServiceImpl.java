@@ -2,7 +2,6 @@ package com.example.ru.hogwarts.school.service;
 
 import com.example.ru.hogwarts.school.Repository.StudentRepository;
 import com.example.ru.hogwarts.school.model.Student;
-import org.aspectj.weaver.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student editStudent(Student student) {
-
+    public Student editStudent(Student student, long id) {
+        student.setId(id);
         return studentRepository.save(student);
     }
 
@@ -43,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-        public List<Student> findStudentByAge(int age) {
-            return studentRepository.findByAge(age);
-       }
+    public List<Student> findStudentByAge(int age) {
+        return studentRepository.findByAge(age);
+    }
 }

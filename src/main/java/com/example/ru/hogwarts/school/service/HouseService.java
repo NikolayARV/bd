@@ -11,7 +11,7 @@ public interface HouseService {
 
     Optional<Faculty> findFaculty(long id);
 
-    Faculty editFaculty(Faculty faculty);
+    Faculty editFaculty(Faculty faculty, long id);
 
     void deleteFaculty(long id);
 
