@@ -1,15 +1,14 @@
 package com.example.ru.hogwarts.school.model;
 
+import com.example.ru.hogwarts.school.dto.StudentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -24,6 +23,10 @@ public class Faculty {
     private Long id;
     private String name;
     private  String color;
+    @OneToMany (mappedBy = "faculty")
+    private Set<Student> students;
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -46,4 +49,6 @@ public class Faculty {
                 ", color='" + color + '\'' +
                 '}';
     }
+
+
 }
