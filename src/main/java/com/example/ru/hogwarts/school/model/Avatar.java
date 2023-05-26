@@ -26,20 +26,20 @@ public class Avatar {
     @Lob
     private byte[] preview;
 
-    @OneToOne
-    private Student student;
+
+    private long studentId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return id == avatar.id && fileSize == avatar.fileSize && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(preview, avatar.preview) && Objects.equals(student, avatar.student);
+        return id == avatar.id && fileSize == avatar.fileSize && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(preview, avatar.preview) && Objects.equals(studentId, avatar.studentId);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filePath, fileSize, mediaType, student);
+        int result = Objects.hash(id, filePath, fileSize, mediaType, studentId);
         result = 31 * result + Arrays.hashCode(preview);
         return result;
     }

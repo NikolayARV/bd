@@ -35,7 +35,7 @@ public class AvatarServiceImpl implements AvatarSevice {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
-        Student student= studentService.findStudent(studentId).toStudent();
+        Student student = studentService.findStudent(studentId).toStudent();
 
 
         Path filePath = Path.of(avatarDir, studentId + "." + getExtension(file.getOriginalFilename()));
@@ -51,7 +51,7 @@ public class AvatarServiceImpl implements AvatarSevice {
         }
         Avatar avatar = findAvatar(studentId);
 
-        avatar.setStudent(student);
+        avatar.setStudentId(studentId);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(file.getSize());
         avatar.setMediaType(file.getContentType());
@@ -85,7 +85,7 @@ public class AvatarServiceImpl implements AvatarSevice {
 
     @Override
     public Avatar findAvatar(Long studentId) {
-      return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
+        return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
 
     }
 }
