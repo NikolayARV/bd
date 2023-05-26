@@ -1,7 +1,6 @@
 package com.example.ru.hogwarts.school.dto;
 
 import com.example.ru.hogwarts.school.Repository.FacultyRepository;
-import com.example.ru.hogwarts.school.model.Faculty;
 import com.example.ru.hogwarts.school.model.Student;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,13 +28,13 @@ public class StudentDTO {
         this.facultyDTO = facultyDTO;
     }
 
-    public static StudentDTO fromStudent(Student student) {
+    public static StudentDTO fromStudent(Optional<Student> student) {
         StudentDTO dto = new StudentDTO();
-        dto.setId(student.getId());
-        dto.setName(student.getName());
-        dto.setAge(student.getAge());
-        dto.setFacultyDTO(FacultyDTO.fromFaculty(student.getFaculty()));
-        dto.setFacultyId(student.getFaculty().getId());
+        dto.setId(student.get().getId());
+        dto.setName(student.get().getName());
+        dto.setAge(student.get().getAge());
+        dto.setFacultyDTO(FacultyDTO.fromFaculty(student.get().getFaculty()));
+        dto.setFacultyId(student.get().getFaculty().getId());
 
         return dto;
     }

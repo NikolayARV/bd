@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO findStudent(long id) {
 
-        return StudentDTO.fromStudent(studentRepository.getById(id));
+        return StudentDTO.fromStudent(studentRepository.findById(id));
     }
 
 
@@ -77,7 +77,7 @@ public class StudentServiceImpl implements StudentService {
     public Set<StudentDTO> makeListDTOFromStudentsList(Set<Student> studentList) {
         Set<StudentDTO> studentDTOS = new HashSet<>();
         for (Student student : studentList) {
-            StudentDTO studentDTO = StudentDTO.fromStudent(student);
+            StudentDTO studentDTO = StudentDTO.fromStudent(Optional.of(student));
             studentDTOS.add(studentDTO);
         }
         return studentDTOS;

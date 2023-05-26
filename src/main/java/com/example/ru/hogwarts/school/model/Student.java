@@ -24,6 +24,11 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    @OneToOne
+    private Avatar avatar;
+
+
+
 
     @Override
     public boolean equals(Object o) {
