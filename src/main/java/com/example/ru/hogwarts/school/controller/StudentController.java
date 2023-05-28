@@ -2,6 +2,7 @@ package com.example.ru.hogwarts.school.controller;
 
 import com.example.ru.hogwarts.school.dto.StudentDTO;
 import com.example.ru.hogwarts.school.model.Avatar;
+import com.example.ru.hogwarts.school.model.Student;
 import com.example.ru.hogwarts.school.service.AvatarSevice;
 import com.example.ru.hogwarts.school.service.StudentService;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("student")
@@ -36,7 +39,19 @@ public class StudentController {
         return studentService.findStudent(id);
     }
 
+    @GetMapping("/count")
+    public Integer getStudentCount() {
+        return studentService.getStudentsCount();
+    }
+    @GetMapping("/avgAge")
+    public Integer getAvgAge() {
+        return studentService.getAvgAge();
+    }
 
+    @GetMapping("/youngest-5")
+    public Set<StudentDTO> findFiveYoungestStudents() {
+        return studentService.findFiveYoungestStudents();
+    }
     @PostMapping
     public StudentDTO createStudent(@RequestParam String name, int age, long faculityId) {
         return studentService.createStudent(name, age, faculityId);
@@ -99,6 +114,11 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getPreview());
     }
 
+    @GetMapping
+    public ResponseEntity<List<StudentDTO>> getAllStudents(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        List<StudentDTO> studentsDTOs = studentService.findAllStudents(pageNumber, pageSize);
+        return ResponseEntity.ok(studentsDTOs);
+    }
     @GetMapping(value = "/{id}/avatar")
     public void downLoadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarSevice.findAvatar(id);

@@ -7,6 +7,7 @@ import com.example.ru.hogwarts.school.dto.StudentDTO;
 import com.example.ru.hogwarts.school.model.Faculty;
 import com.example.ru.hogwarts.school.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,8 +30,8 @@ public class StudentServiceImpl implements StudentService {
         FacultyDTO facultyDTO = FacultyDTO.fromFaculty(facultyRepository.getById(facultyId));
         StudentDTO studentDTO = new StudentDTO(name, age, facultyId, facultyDTO);
         Student student = studentDTO.toStudent();
-       studentRepository.save(student);
-       return studentDTO;
+        studentRepository.save(student);
+        return studentDTO;
     }
 
     @Override
@@ -59,27 +60,61 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Set<StudentDTO> findStudentByAge(int age) {
-        return makeListDTOFromStudentsList(studentRepository.findByAge(age));
+        return makeSetDTOFromStudentsList(studentRepository.findByAge(age));
 
     }
 
     @Override
     public Set<StudentDTO> findStudentByAgeBetween(int age1, int age2) {
 
-        return makeListDTOFromStudentsList(studentRepository.findByAgeBetween(age1, age2));
+        return makeSetDTOFromStudentsList(studentRepository.findByAgeBetween(age1, age2));
     }
 
     @Override
     public Set<StudentDTO> findStudentsByFacultiId(long facultyId) {
-       Faculty faculty = facultyRepository.findById(facultyId);
-     return   makeListDTOFromStudentsList(faculty.getStudents());
+        Faculty faculty = facultyRepository.findById(facultyId);
+        return makeSetDTOFromStudentsList(faculty.getStudents());
     }
-    public Set<StudentDTO> makeListDTOFromStudentsList(Set<Student> studentList) {
+
+    @Override
+    public Integer getStudentsCount() {
+        return studentRepository.getStudentsCount();
+    }
+
+    @Override
+    public Integer getAvgAge() {
+        return studentRepository.getAvgAge();
+    }
+
+    @Override
+    public Set<StudentDTO> findFiveYoungestStudents() {
+        return makeSetDTOFromStudentsList(studentRepository.findFiveYoungestStudents());
+    }
+
+    public Set<StudentDTO> makeSetDTOFromStudentsList(Set<Student> studentList) {
         Set<StudentDTO> studentDTOS = new HashSet<>();
         for (Student student : studentList) {
             StudentDTO studentDTO = StudentDTO.fromStudent(Optional.of(student));
             studentDTOS.add(studentDTO);
         }
         return studentDTOS;
+    }
+
+    public  List<StudentDTO> makeListDTOFromStudentsList(List<Student> studentList) {
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        for (Student student : studentList) {
+            StudentDTO studentDTO = StudentDTO.fromStudent(Optional.of(student));
+            studentDTOS.add(studentDTO);
+        }
+        return studentDTOS;
+    }
+    @Override
+    public List<StudentDTO> findAllStudents(Integer pageNumber, Integer pageSize) {
+        if (pageSize <= 0 || pageSize > 50) {
+            pageSize = 50;
+        }
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return makeListDTOFromStudentsList(studentRepository.findAll(pageRequest).getContent());
+
     }
 }

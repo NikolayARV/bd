@@ -27,4 +27,11 @@ public interface StudentService {
     Set<StudentDTO> findStudentByAgeBetween(int age1, int age2);
 
     Set<StudentDTO> findStudentsByFacultiId(long facultyId);
+
+    Integer getStudentsCount();
+
+    Integer getAvgAge();
+
+    Set<StudentDTO> findFiveYoungestStudents();
+    List<StudentDTO> findAllStudents(Integer pageNumber, Integer pageSize);
 }
